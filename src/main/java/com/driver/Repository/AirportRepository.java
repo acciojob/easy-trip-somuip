@@ -123,4 +123,15 @@ public class AirportRepository {
         }
         return "FAILURE";
     }
+
+    public String getAirportNameByFlight(Integer flightId){
+        if(flightDb.containsKey(flightId)){
+            City city = flightDb.get(flightId).getFromCity();
+            for(Airport airport : airportDb.values()){
+                if (airport.getCity().equals(city))
+                    return airport.getAirportName();
+            }
+        }
+        return null;
+    }
 }
