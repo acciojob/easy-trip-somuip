@@ -91,4 +91,17 @@ public class AirportRepository {
         ans += 3000 + (passengers.size() * 50);
         return ans;
     }
+
+    public int getCountOfBookingByPassenger(Integer passengerId){
+        int ans = 0;
+        for(Integer flight : flightTicketBookingDb.keySet()){
+            List<Integer> passengers = flightTicketBookingDb.get(flight);
+            for(Integer id : passengers){
+                if(id == passengerId){
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
 }

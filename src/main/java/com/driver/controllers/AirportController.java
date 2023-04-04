@@ -96,7 +96,7 @@ public class AirportController {
     public int countOfBookingsDoneByPassengerAllCombined(@PathVariable("passengerId")Integer passengerId){
 
         //Tell the count of flight bookings done by a passenger: This will tell the total count of flight bookings done by a passenger :
-       return 0;
+       return airportService.getCountOfBookingByPassenger(passengerId);
     }
 
     @PostMapping("/add-flight")

@@ -42,4 +42,8 @@ public class AirportService {
     public int calculateFlightFare(Integer flightId){
         return airportRepository.calculateFlightFare(flightId);
     }
+
+    public int getCountOfBookingByPassenger(Integer passengerId){
+        return airportRepository.getCountOfBookingByPassenger(passengerId);
+    }
 }
