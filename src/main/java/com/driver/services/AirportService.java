@@ -31,6 +31,10 @@ public class AirportService {
         return airportRepository.bookTicket(flightId,passengerId);
     }
 
+    public String cancelTicket(Integer flightId, Integer passengerId){
+        return airportRepository.cancelTicket(flightId, passengerId);
+    }
+
     public String getLargestAirport(){
         return airportRepository.getLargestAirport();
     }
@@ -45,5 +49,9 @@ public class AirportService {
 
     public int getCountOfBookingByPassenger(Integer passengerId){
         return airportRepository.getCountOfBookingByPassenger(passengerId);
+    }
+
+    public int calculateRevenue(Integer flightId){
+        return airportRepository.calculateRevenueByFlight(flightId);
     }
 }

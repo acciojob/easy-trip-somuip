@@ -88,7 +88,7 @@ public class AirportController {
         // Otherwise return a "SUCCESS" message
         // and also cancel the ticket that passenger had booked earlier on the given flightId
 
-       return null;
+       return airportService.cancelTicket(flightId, passengerId);
     }
 
 
@@ -126,7 +126,7 @@ public class AirportController {
         //Revenue will also decrease if some passenger cancels the flight
 
 
-        return 0;
+        return airportService.calculateRevenue(flightId);
     }
 
 

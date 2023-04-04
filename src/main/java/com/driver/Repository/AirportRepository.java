@@ -104,4 +104,23 @@ public class AirportRepository {
         }
         return ans;
     }
+
+    public int calculateRevenueByFlight(Integer flightId){
+        int ans = 0;
+        List<Integer> passengers = flightTicketBookingDb.get(flightId);
+        ans += (3000 * passengers.size()) + (50 * passengers.size()) - 50;
+        return ans;
+    }
+
+    public String cancelTicket(Integer flightId, Integer passengerId){
+        List<Integer> passengers = flightTicketBookingDb.get(flightId);
+        if(passengers == null){
+            return "FAILURE";
+        }
+        if(passengers.contains(passengerId)){
+            passengers.remove(passengerId);
+            return "SUCCESS";
+        }
+        return "FAILURE";
+    }
 }
