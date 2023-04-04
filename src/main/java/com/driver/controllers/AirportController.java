@@ -27,8 +27,7 @@ public class AirportController {
         //Simply add airport details to your database
         //Return a String message "SUCCESS"
 
-        airportService.addAirport(airport);
-        return "SUCCESS";
+        return airportService.addAirport(airport);
     }
 
     @GetMapping("/get-largest-aiport")
@@ -103,8 +102,8 @@ public class AirportController {
     public String addFlight(@RequestBody Flight flight){
 
         //Return a "SUCCESS" message string after adding a flight.
-        airportService.addFlight(flight);
-        return "SUCCESS";
+        return airportService.addFlight(flight);
+
     }
 
 
@@ -135,8 +134,7 @@ public class AirportController {
 
         //Add a passenger to the database
         //And return a "SUCCESS" message if the passenger has been added successfully.
-        airportService.addPassenger(passenger);
-       return "SUCCESS";
+        return airportService.addPassenger(passenger);
     }
 
 

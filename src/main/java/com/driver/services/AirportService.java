@@ -15,16 +15,16 @@ public class AirportService {
 
     AirportRepository airportRepository = new AirportRepository();
 
-    public void addAirport(Airport airport){
-        airportRepository.addAirport(airport);
+    public String addAirport(Airport airport){
+        return airportRepository.addAirport(airport);
     }
 
-    public void addFlight(Flight flight){
-        airportRepository.addFlight(flight);
+    public String addFlight(Flight flight){
+        return airportRepository.addFlight(flight);
     }
 
-    public void addPassenger(Passenger passenger){
-        airportRepository.addPassenger(passenger);
+    public String addPassenger(Passenger passenger){
+        return airportRepository.addPassenger(passenger);
     }
 
     public String bookTicket(Integer flightId, Integer passengerId){

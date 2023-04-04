@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,30 +27,50 @@ public class AirportRepository {
 
 
 
-    public void addAirport(Airport airport){
+    public String addAirport(Airport airport){
         airportDb.put(airport.getAirportName(), airport);
+        return "SUCCESS";
     }
 
     public String bookTicket(Integer flightId, Integer passengerId){
-        Flight flight = flightDb.get(flightId);
-        List<Integer> passengers = flightTicketBookingDb.get(flightId);
-        int noOfPassengers = passengers.size();
-        if(noOfPassengers < flight.getMaxCapacity() && !passengers.contains(passengerId)){
+        if(flightTicketBookingDb.get(flightId)!=null &&(flightTicketBookingDb.get(flightId).size()<flightDb.get(flightId).getMaxCapacity())){
+
+            List<Integer> passengers =  flightTicketBookingDb.get(flightId);
+
+            if(passengers.contains(passengerId)){
+                return "FAILURE";
+            }
+
             passengers.add(passengerId);
-            flightTicketBookingDb.put(flightId, passengers);
+            flightTicketBookingDb.put(flightId,passengers);
             return "SUCCESS";
         }
-        else{
-            return "FAILURE";
+        else if(flightTicketBookingDb.get(flightId)==null)
+        {
+            flightTicketBookingDb.put(flightId,new ArrayList<>());
+            List<Integer> passengers =  flightTicketBookingDb.get(flightId);
+
+            if(passengers.contains(passengerId)){
+                return "FAILURE";
+            }
+
+            passengers.add(passengerId);
+            flightTicketBookingDb.put(flightId,passengers);
+            return "SUCCESS";
+
         }
+        return "FAILURE";
     }
 
-    public void addFlight(Flight flight){
+
+    public String addFlight(Flight flight){
         flightDb.put(flight.getFlightId(), flight);
+        return "SUCCESS";
     }
 
-    public void addPassenger(Passenger passenger){
+    public String addPassenger(Passenger passenger){
         passengerDb.put(passenger.getPassengerId(), passenger);
+        return "SUCCESS";
     }
 
     public String getLargestAirport(){
@@ -106,10 +128,10 @@ public class AirportRepository {
     }
 
     public int calculateRevenueByFlight(Integer flightId){
-        int ans = 0;
-        List<Integer> passengers = flightTicketBookingDb.get(flightId);
-        ans += (3000 * passengers.size()) + (50 * passengers.size()) - 50;
-        return ans;
+        int noOfPeopleBooked = flightTicketBookingDb.get(flightId).size();
+        int totalFare = (25 * noOfPeopleBooked * noOfPeopleBooked) + (2975 * noOfPeopleBooked);
+
+        return totalFare;
     }
 
     public String cancelTicket(Integer flightId, Integer passengerId){
@@ -133,5 +155,23 @@ public class AirportRepository {
             }
         }
         return null;
+    }
+
+    public int getNumOfPeopleOnTheDayAtAirport(Date date, String airportName){
+        Airport airport = airportDb.get(airportName);
+        if(airport==null){
+            return 0;
+        }
+        City city = airport.getCity();
+        int count = 0;
+        for(Flight flight:flightDb.values()){
+            if(date.equals(flight.getFlightDate()))
+                if(flight.getToCity().equals(city)||flight.getFromCity().equals(city)){
+
+                    int flightId = flight.getFlightId();
+                    count = count + flightTicketBookingDb.get(flightId).size();
+                }
+        }
+        return count;
     }
 }
